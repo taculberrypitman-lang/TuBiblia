@@ -188,6 +188,16 @@ El texto completo de la licencia está en el archivo [LICENSE](LICENSE).
 Las dependencias conservan sus propias licencias: Pocket TTS (MIT), PySide6
 (LGPL-3.0), PyTorch (BSD) y las voces/modelos de Kyutai según sus condiciones.
 
+## Aviso legal sobre MyBible
+
+TuBiblia es un proyecto independiente: no está afiliado, respaldado ni
+patrocinado por el proyecto MyBible. «MyBible» es una marca de sus respectivos
+titulares y se menciona únicamente para identificar la compatibilidad con el
+formato de módulos y su catálogo público. TuBiblia no incluye ni redistribuye
+ningún texto bíblico: cada módulo se descarga, a petición del usuario, desde
+los servidores oficiales de MyBible, y su uso queda sujeto a las condiciones
+de licencia de cada módulo.
+
 ## Pendiente
 
 Marcadores, notas, historial detallado, resaltados, preferencias tipográficas
