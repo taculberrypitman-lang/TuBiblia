@@ -77,6 +77,34 @@ def test_dialog_loads_filters_and_displays_catalog_metadata(qapp, tmp_path, monk
     dialog.close()
 
 
+def test_dialog_falls_back_to_all_languages_when_no_spanish_results(
+    qapp, tmp_path, monkeypatch
+):
+    english_module = CatalogModule(
+        abbreviation="KJV",
+        file_stem="KJV",
+        language="en",
+        description="King James Version",
+        information="",
+        updated="",
+        size="",
+        book_count=66,
+        download_url="https://mybible.zone/repository/modules/KJV.zip",
+    )
+    monkeypatch.setattr(
+        module_catalog_dialog, "fetch_catalog", lambda: (english_module,)
+    )
+
+    dialog = ModuleCatalogDialog(ModuleStore(tmp_path / "app-data"))
+    wait_for_worker(qapp, dialog)
+
+    assert dialog.language_combo.currentData() is None
+    assert dialog.module_list.count() == 1
+    assert dialog.module_list.item(0).text().startswith("King James Version")
+    assert "todos los idiomas" in dialog.status_label.text()
+    dialog.close()
+
+
 def test_dialog_downloads_and_installs_selected_module(
     qapp, tmp_path, monkeypatch
 ):

@@ -64,6 +64,57 @@ def test_parses_catalog_modules_and_skips_non_bible_entries():
     )
 
 
+def test_derives_language_from_real_registry_lds_translations():
+    registry = {
+        "hosts": [
+            {
+                "alias": "main",
+                "path": "https://mybible.zone/repository/modules/%s.zip",
+            }
+        ],
+        "downloads": [
+            {
+                "abr": "BLP",
+                "fil": "BLP",
+                "des": "La Palabra (BLP), versión española, 2010",
+                "lds": [
+                    {"lng": "es", "des": "La Palabra (BLP), versión española, 2010"},
+                    {"lng": "en", "des": "La Palabra (BLP), Spanish version, 2010"},
+                ],
+                "bkq": "66",
+                "url": ["{main}BLP"],
+            },
+            {
+                "abr": "ESE",
+                "fil": "ESE",
+                "des": "Español Sagradas Escrituras (1569)",
+                "lds": None,
+                "lng": "es",
+                "bkq": "66",
+                "url": ["{main}ESE"],
+            },
+            {
+                "abr": "NONLANG",
+                "fil": "NonLang",
+                "des": "Sin idioma usable",
+                "lds": [{"lng": "  ", "des": "vacío"}, "no-es-dict"],
+                "bkq": "66",
+                "url": ["{main}NonLang"],
+            },
+        ],
+    }
+
+    modules = parse_registry(registry_archive(registry))
+    by_abbreviation = {module.abbreviation: module for module in modules}
+
+    assert by_abbreviation["BLP"].language == "es"
+    assert by_abbreviation["ESE"].language == "es"
+    assert by_abbreviation["NONLANG"].language == ""
+    # Sin licencia en el registro: el aviso legal queda vacío y el diálogo
+    # muestra su mensaje de "comprueba los permisos".
+    assert by_abbreviation["BLP"].information == ""
+
+
 @pytest.mark.parametrize(
     "host_template",
     [

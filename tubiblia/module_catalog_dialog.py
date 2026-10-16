@@ -171,6 +171,21 @@ class ModuleCatalogDialog(QDialog):
             )
             self.language_combo.blockSignals(False)
             self._populate_modules()
+            selected_language = self.language_combo.currentData()
+            if selected_language is not None and self.module_list.count() == 0:
+                all_index = self.language_combo.findData(None)
+                if all_index >= 0:
+                    self.language_combo.blockSignals(True)
+                    try:
+                        self.language_combo.setCurrentIndex(all_index)
+                    finally:
+                        self.language_combo.blockSignals(False)
+                    self._populate_modules()
+                    self.status_label.setText(
+                        f"Catálogo actualizado: {len(self.modules)} módulos. "
+                        "Sin resultados en español; mostrando todos los idiomas."
+                    )
+                    return
             self.status_label.setText(f"Catálogo actualizado: {len(self.modules)} módulos.")
             return
         if name == "install" and isinstance(result, ModuleMetadata):

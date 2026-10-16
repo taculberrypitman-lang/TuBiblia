@@ -56,6 +56,34 @@ def _plain_text(value: object) -> str:
     return " ".join(parser.parts)
 
 
+def _module_language(entry: dict[str, object]) -> str:
+    """Derive the module language code from a registry entry.
+
+    The official MyBible registry carries no top-level ``lng`` key: the
+    available translations live in the ``lds`` list as
+    ``{"lng": <code>, "des": <description>}`` objects, so the first valid
+    language code found there is used. A legacy top-level ``lng`` string is
+    accepted as a fallback for backwards compatibility. Returns ``""`` when
+    no usable code exists, so callers show their "unknown language" state.
+    """
+    translations = entry.get("lds")
+    if isinstance(translations, list):
+        for translation in translations:
+            if not isinstance(translation, dict):
+                continue
+            code = translation.get("lng")
+            if isinstance(code, str):
+                normalized = code.strip().casefold()
+                if re.fullmatch(r"[a-z]{2,3}(?:[-_][a-z0-9]{2,8})?", normalized):
+                    return normalized
+    legacy = entry.get("lng")
+    if isinstance(legacy, str):
+        normalized = legacy.strip().casefold()
+        if re.fullmatch(r"[a-z]{2,3}(?:[-_][a-z0-9]{2,8})?", normalized):
+            return normalized
+    return ""
+
+
 def _validate_download_url(url: str) -> urllib.parse.SplitResult:
     parsed = urllib.parse.urlsplit(url)
     try:
@@ -212,7 +240,7 @@ def parse_registry(archive: bytes) -> tuple[CatalogModule, ...]:
         abbreviation = entry.get("abr")
         file_stem = entry.get("fil")
         description = entry.get("des")
-        language = entry.get("lng", "")
+        language = _module_language(entry)
         if not all(isinstance(value, str) and value for value in (abbreviation, file_stem, description)):
             continue
         url = _module_url(entry, templates)
@@ -222,7 +250,7 @@ def parse_registry(archive: bytes) -> tuple[CatalogModule, ...]:
             CatalogModule(
                 abbreviation=abbreviation,
                 file_stem=file_stem,
-                language=language if isinstance(language, str) else "",
+                language=language,
                 description=_plain_text(description),
                 information=_plain_text(entry.get("inf", "")),
                 updated=str(entry.get("upd", "")),
