@@ -1,4 +1,4 @@
-# TuBiblia para Linux
+# TuBiblia para Linux/Windows
 
 TuBiblia es una aplicación de escritorio local para leer módulos bíblicos de
 MyBible. Permite importar un módulo SQLite existente o buscar y descargar
@@ -173,20 +173,17 @@ tests/
 
 ## Licencia
 
-Copyright © 2026 **CunaWare.Lab**. Todos los derechos reservados.
+Copyright © 2026 **CunaWare.Lab**.
 
-TuBiblia se distribuye bajo la [Licencia Pública General de GNU v3.0](LICENSE)
-(GPL-3.0). Eres libre de usar, estudiar, modificar y compartir este software,
-con las siguientes condiciones:
+TuBiblia se distribuye bajo la licencia [GNU General Public License, versión 3](LICENSE) (GPL-3.0).
 
-- Debes conservar los avisos de copyright y la licencia en todo el código.
-- Cualquier obra derivada debe publicarse también bajo GPL-3.0.
-- No puedes presentar TuBiblia ni sus derivados como una obra exclusivamente tuya.
+Esta licencia permite utilizar, estudiar, modificar y redistribuir el software conforme a sus términos y condiciones. La distribución de copias o versiones modificadas debe cumplir las obligaciones establecidas por la GPL-3.0, incluidos los requisitos aplicables sobre avisos de copyright, licencia y modificaciones.
 
-El texto completo de la licencia está en el archivo [LICENSE](LICENSE).
+**La autorización para modificar o redistribuir TuBiblia no concede permiso para atribuirse falsamente la autoría del código original ni para eliminar los avisos de autoría y licencia que deban conservarse.** Las contribuciones y modificaciones propias pueden identificarse por separado, respetando los derechos de los autores originales.
 
-Las dependencias conservan sus propias licencias: Pocket TTS (MIT), PySide6
-(LGPL-3.0), PyTorch (BSD) y las voces/modelos de Kyutai según sus condiciones.
+Consulta el archivo [LICENSE](LICENSE) para conocer el texto completo de la licencia.
+
+Las dependencias de terceros conservan sus respectivas licencias y condiciones de uso. Entre ellas se encuentran Pocket TTS, PySide6, PyTorch y los recursos de voz y modelos de Kyutai. Consulta la documentación de cada componente para conocer sus términos específicos.
 
 ## Aviso legal sobre MyBible
 
