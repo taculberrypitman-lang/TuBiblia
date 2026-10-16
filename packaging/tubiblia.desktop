@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=TuBiblia
+Comment=Lector bíblico para Linux
+Exec=TuBiblia
+Icon=tubiblia
+Categories=Education;Office;
+Terminal=false
+StartupWMClass=TuBiblia

@@ -1,0 +1,26 @@
+name: Windows installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+      - name: Build installer
+        shell: pwsh
+        run: ./packaging/windows/build-installer.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TuBiblia-Windows-x64
+          path: dist/TuBiblia-Setup-x64.exe
+          if-no-files-found: error
